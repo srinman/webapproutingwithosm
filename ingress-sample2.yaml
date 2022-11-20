@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.azure.com/use-osm-mtls: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/configuration-snippet: |2-
+
+      proxy_ssl_name "sample2-sa.sample2.cluster.local";
+    nginx.ingress.kubernetes.io/proxy-ssl-secret: osm-system/nginx-client-cert-for-talking-to-osm
+    nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
+  name: sample2-ingress
+  namespace: sample2
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+  - host: mysite2.srinman.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: aks-helloworld2-svc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
