@@ -13,10 +13,6 @@ metadata:
   namespace: sample1
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
-  tls: 
-  - hosts: 
-    - mysite.srinman.com
-    secretName: mysite-tls
   rules:
   - host: mysite.srinman.com
     http:
