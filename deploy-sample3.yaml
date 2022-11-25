@@ -1,0 +1,37 @@
+# this runs outside of OSM in a namespace sample3
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-helloworld3
+  namespace: sample3
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aks-helloworld3
+  template:
+    metadata:
+      labels:
+        app: aks-helloworld3
+    spec: 
+      serviceAccountName: sample3-sa
+      containers:
+      - name: aks-helloworld
+        image: mcr.microsoft.com/azuredocs/aks-helloworld:v1
+        ports:
+        - containerPort: 80
+        env:
+        - name: TITLE
+          value: "Welcome to Azure Kubernetes Service (AKS)"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aks-helloworld3-svc
+  namespace: sample3
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: aks-helloworld3
