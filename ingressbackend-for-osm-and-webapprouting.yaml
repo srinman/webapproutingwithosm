@@ -1,4 +1,6 @@
 apiVersion: policy.openservicemesh.io/v1alpha1
+# use this definition when using add-on for both osm and web application routing together
+# this has kind: Service in sources section for added protection
 kind: IngressBackend
 metadata:
   name: sample1-ingressbackend
